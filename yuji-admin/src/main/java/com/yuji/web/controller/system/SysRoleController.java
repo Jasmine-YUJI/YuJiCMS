@@ -2,6 +2,8 @@ package com.yuji.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.yuji.system.domain.dto.RoleMenuDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -139,6 +141,29 @@ public class SysRoleController extends BaseController
             return success();
         }
         return error("修改角色'" + role.getRoleName() + "'失败，请联系管理员");
+    }
+
+    /**
+     * 修改保存角色
+     */
+    @PreAuthorize("@ss.hasPermi('system:role:edit')")
+    @Log(title = "角色权限管理", businessType = BusinessType.UPDATE)
+    @PutMapping("/updateRoleMenu")
+    public AjaxResult updateRoleMenu(@Validated @RequestBody RoleMenuDTO dto)
+    {
+        if (roleService.updateRoleMenu(dto) > 0)
+        {
+            // 更新缓存用户权限
+            LoginUser loginUser = getLoginUser();
+            if (StringUtils.isNotNull(loginUser.getUser()) && !loginUser.getUser().isAdmin())
+            {
+                loginUser.setPermissions(permissionService.getMenuPermission(loginUser.getUser()));
+                loginUser.setUser(userService.selectUserByUserName(loginUser.getUser().getUserName()));
+                tokenService.setLoginUser(loginUser);
+            }
+            return success();
+        }
+        return error();
     }
 
     /**

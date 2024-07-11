@@ -25,6 +25,14 @@ export function treeselect() {
   })
 }
 
+// 用户偏好查询菜单下拉树结构
+export function getUserMenuTree() {
+  return request({
+    url: '/system/menu/userTreeselect',
+    method: 'get'
+  })
+}
+
 // 根据角色ID查询菜单下拉树结构
 export function roleMenuTreeselect(roleId) {
   return request({

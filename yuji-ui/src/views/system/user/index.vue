@@ -204,103 +204,58 @@
 
     <!-- 添加或修改用户配置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="600px" append-to-body>
-      <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="用户昵称" prop="nickName">
-              <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="归属部门" prop="deptId">
-              <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="手机号码" prop="phonenumber">
-              <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="邮箱" prop="email">
-              <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
-              <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
-              <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="用户性别">
-              <el-select v-model="form.sex" placeholder="请选择性别">
-                <el-option
-                  v-for="dict in dict.type.sys_user_sex"
-                  :key="dict.value"
-                  :label="dict.label"
-                  :value="dict.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="状态">
-              <el-radio-group v-model="form.status">
-                <el-radio
-                  v-for="dict in dict.type.sys_normal_disable"
-                  :key="dict.value"
-                  :label="dict.value"
-                >{{dict.label}}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="岗位">
-              <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
-                <el-option
-                  v-for="item in postOptions"
-                  :key="item.postId"
-                  :label="item.postName"
-                  :value="item.postId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="角色">
-              <el-select v-model="form.roleIds" multiple placeholder="请选择角色">
-                <el-option
-                  v-for="item in roleOptions"
-                  :key="item.roleId"
-                  :label="item.roleName"
-                  :value="item.roleId"
-                  :disabled="item.status == 1"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="备注">
-              <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
-            </el-form-item>
-          </el-col>
-        </el-row>
+      <el-form ref="form" :model="form" :rules="rules" label-width="100px">
+        <el-form-item v-if="form.userId == undefined" label="用户名称" prop="userName">
+          <el-input v-model="form.userName" placeholder="请输入用户名称" maxlength="30" />
+        </el-form-item>
+        <el-form-item label="用户昵称" prop="nickName">
+          <el-input v-model="form.nickName" placeholder="请输入用户昵称" maxlength="30" />
+        </el-form-item>
+        <el-form-item v-if="form.userId == undefined" label="用户密码" prop="password">
+          <el-input v-model="form.password" placeholder="请输入用户密码" type="password" maxlength="20" show-password/>
+        </el-form-item>
+        <el-form-item label="归属部门" prop="deptId">
+          <treeselect v-model="form.deptId" :options="deptOptions" :show-count="true" placeholder="请选择归属部门" />
+        </el-form-item>
+        <el-form-item label="手机号码" prop="phonenumber">
+          <el-input v-model="form.phonenumber" placeholder="请输入手机号码" maxlength="11" />
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="form.email" placeholder="请输入邮箱" maxlength="50" />
+        </el-form-item>
+        <el-form-item label="用户性别">
+          <el-select v-model="form.sex" placeholder="请选择性别">
+            <el-option
+              v-for="dict in dict.type.sys_user_sex"
+              :key="dict.value"
+              :label="dict.label"
+              :value="dict.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-radio-group v-model="form.status">
+            <el-radio
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="dict.value"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="岗位">
+          <el-select v-model="form.postIds" multiple placeholder="请选择岗位">
+            <el-option
+              v-for="item in postOptions"
+              :key="item.postId"
+              :label="item.postName"
+              :value="item.postId"
+              :disabled="item.status == 1"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="备注">
+          <el-input v-model="form.remark" type="textarea" placeholder="请输入内容"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -337,11 +292,48 @@
         <el-button @click="upload.open = false">取 消</el-button>
       </div>
     </el-dialog>
+    <!-- 角色设置 -->
+    <el-drawer
+      direction="rtl"
+      size="35%"
+      :title="$t('System.User.RoleSetting')"
+      :visible.sync="openRoleDialog"
+      :before-close="handleRoleDialogClose">
+      <div style="padding: 0 20px">
+        <el-row class="mb10">
+          <el-col>
+            <el-button
+              type="primary"
+              plain
+              icon="el-icon-save"
+              size="mini"
+              @click="handleSaveAuthRole"
+              v-hasPermi="['system:user:edit']"
+            >{{ $t('Common.Save') }}</el-button>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col>
+            <el-card shadow="never">
+              <el-table v-loading="loading" ref="roleTable" :data="roleOptions" @selection-change="handleRoleSelectionChange">
+                <el-table-column type="selection" width="55" align="center" />
+                <el-table-column :label="$t('System.Role.RoleName')" prop="roleName" :show-overflow-tooltip="true" />
+                <el-table-column :label="$t('System.Role.Status')" align="center" prop="status">
+                  <template slot-scope="scope">
+                    <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.status"/>
+                  </template>
+                </el-table-column>
+              </el-table>
+            </el-card>
+          </el-col>
+        </el-row>
+      </div>
+    </el-drawer>
   </div>
 </template>
 
 <script>
-import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect } from "@/api/system/user";
+import { listUser, getUser, delUser, addUser, updateUser, resetUserPwd, changeUserStatus, deptTreeSelect, getAuthRole, updateAuthRole} from "@/api/system/user";
 import { getToken } from "@/utils/auth";
 import Treeselect from "@riophae/vue-treeselect";
 import "@riophae/vue-treeselect/dist/vue-treeselect.css";
@@ -382,6 +374,7 @@ export default {
       postOptions: [],
       // 角色选项
       roleOptions: [],
+      openRoleDialog: false,
       // 表单参数
       form: {},
       defaultProps: {
@@ -546,6 +539,13 @@ export default {
       this.single = selection.length != 1;
       this.multiple = !selection.length;
     },
+    handleRoleSelectionChange(selection) {
+      this.form.roleIds = selection.map(item => item.roleId);
+    },
+    handleRoleDialogClose() {
+      this.openRoleDialog = false;
+      this.$refs.roleTable.clearSelection();
+    },
     // 更多操作触发
     handleCommand(command, row) {
       switch (command) {
@@ -564,7 +564,6 @@ export default {
       this.reset();
       getUser().then(response => {
         this.postOptions = response.posts;
-        this.roleOptions = response.roles;
         this.open = true;
         this.title = "添加用户";
         this.form.password = this.initPassword;
@@ -577,9 +576,7 @@ export default {
       getUser(userId).then(response => {
         this.form = response.data;
         this.postOptions = response.posts;
-        this.roleOptions = response.roles;
         this.$set(this.form, "postIds", response.postIds);
-        this.$set(this.form, "roleIds", response.roleIds);
         this.open = true;
         this.title = "修改用户";
         this.form.password = "";
@@ -606,8 +603,28 @@ export default {
     },
     /** 分配角色操作 */
     handleAuthRole: function(row) {
-      const userId = row.userId;
-      this.$router.push("/system/user-auth/role/" + userId);
+      this.reset();
+      this.loading = true;
+      this.openRoleDialog = true;
+      getAuthRole(row.userId).then(response => {
+        this.form = response.user;
+        this.roleOptions = response.roles;
+        this.$nextTick(() => {
+          this.roleOptions.forEach((row) => {
+            if (row.flag) {
+              this.$refs.roleTable.toggleRowSelection(row);
+            }
+          });
+          this.loading = false;
+        });
+      });
+    },
+    handleSaveAuthRole: function() {
+      const data = { userId: this.form.userId, roleIds: this.form.roleIds };
+      updateAuthRole(data).then((response) => {
+        this.$modal.msgSuccess("授权成功");
+        this.openRoleDialog = false;
+      });
     },
     /** 提交按钮 */
     submitForm: function() {

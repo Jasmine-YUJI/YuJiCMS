@@ -35,6 +35,15 @@ export function updateRole(data) {
   })
 }
 
+// 修改角色权限
+export function updateRoleMenu(data) {
+  return request({
+    url: '/system/role/updateRoleMenu',
+    method: 'put',
+    data: data
+  })
+}
+
 // 角色数据权限
 export function dataScope(data) {
   return request({

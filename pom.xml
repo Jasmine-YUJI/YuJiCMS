@@ -15,7 +15,7 @@
         <yuji.version>3.8.7</yuji.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+        <java.version>17</java.version>
         <maven-jar-plugin.version>3.1.1</maven-jar-plugin.version>
         <spring-framework.version>5.3.33</spring-framework.version>
         <druid.version>1.2.20</druid.version>
@@ -28,6 +28,11 @@
         <poi.version>4.1.2</poi.version>
         <velocity.version>2.3</velocity.version>
         <jwt.version>0.9.1</jwt.version>
+        <lombok.version>1.18.26</lombok.version>
+        <redisson.version>3.25.2</redisson.version>
+        <yitter.version>1.0.6</yitter.version>
+        <minio.version>8.5.5</minio.version>
+        <ip2region.version>2.7.0</ip2region.version>
     </properties>
 
     <!-- 依赖声明 -->
@@ -122,6 +127,42 @@
                 <version>${kaptcha.version}</version>
             </dependency>
 
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <scope>provided</scope>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- redission -->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
+            </dependency>
+
+            <!-- 雪花ID -->
+            <dependency>
+                <groupId>com.github.yitter</groupId>
+                <artifactId>yitter-idgenerator</artifactId>
+                <version>${yitter.version}</version>
+            </dependency>
+
+            <!-- Minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <!-- 离线IP转地址 -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
+            </dependency>
+
             <!-- 定时任务-->
             <dependency>
                 <groupId>com.yuji</groupId>
@@ -139,7 +180,7 @@
             <!-- 核心模块-->
             <dependency>
                 <groupId>com.yuji</groupId>
-                <artifactId>yuji-framework</artifactId>
+                <artifactId>yuji-common-framework</artifactId>
                 <version>${yuji.version}</version>
             </dependency>
 
@@ -153,7 +194,7 @@
             <!-- 通用工具-->
             <dependency>
                 <groupId>com.yuji</groupId>
-                <artifactId>yuji-common</artifactId>
+                <artifactId>yuji-common-core</artifactId>
                 <version>${yuji.version}</version>
             </dependency>
 
@@ -162,13 +203,18 @@
 
     <modules>
         <module>yuji-admin</module>
-        <module>yuji-framework</module>
-        <module>yuji-system</module>
-        <module>yuji-quartz</module>
-        <module>yuji-generator</module>
         <module>yuji-common</module>
+        <module>yuji-modules</module>
     </modules>
     <packaging>pom</packaging>
+
+    <dependencies>
+        <!-- lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>

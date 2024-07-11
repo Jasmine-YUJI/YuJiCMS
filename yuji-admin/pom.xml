@@ -33,7 +33,7 @@
         <!-- 核心模块-->
         <dependency>
             <groupId>com.yuji</groupId>
-            <artifactId>yuji-framework</artifactId>
+            <artifactId>yuji-common-framework</artifactId>
         </dependency>
 
         <!-- 定时任务-->

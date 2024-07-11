@@ -7,3 +7,11 @@ export function getServer() {
     method: 'get'
   })
 }
+
+//首页获取系统信息
+export function getDashboardServerInfo() {
+  return request({
+    url: '/monitor/server/dashboard',
+    method: 'get'
+  })
+}

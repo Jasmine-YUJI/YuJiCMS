@@ -1,20 +1,24 @@
 package com.yuji.web.controller.system;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+import com.yuji.common.core.domain.model.LoginUser;
+import com.yuji.framework.web.service.TokenService;
+import com.yuji.system.domain.dto.AuthRoleDTO;
+import com.yuji.system.preference.IUserPreference;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.yuji.common.annotation.Log;
 import com.yuji.common.core.controller.BaseController;
@@ -53,6 +57,12 @@ public class SysUserController extends BaseController
     @Autowired
     private ISysPostService postService;
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private List<IUserPreference> userPreferenceList;
+
     /**
      * 获取用户列表
      */
@@ -60,6 +70,7 @@ public class SysUserController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(SysUser user)
     {
+
         startPage();
         List<SysUser> list = userService.selectUserList(user);
         return getDataTable(list);
@@ -197,6 +208,7 @@ public class SysUserController extends BaseController
         userService.checkUserAllowed(user);
         userService.checkUserDataScope(user.getUserId());
         user.setPassword(SecurityUtils.encryptPassword(user.getPassword()));
+        user.setPasswordModifyTime(LocalDateTime.now());
         user.setUpdateBy(getUsername());
         return toAjax(userService.resetPwd(user));
     }
@@ -236,11 +248,11 @@ public class SysUserController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:user:edit')")
     @Log(title = "用户管理", businessType = BusinessType.GRANT)
     @PutMapping("/authRole")
-    public AjaxResult insertAuthRole(Long userId, Long[] roleIds)
+    public AjaxResult insertAuthRole(@Validated @RequestBody AuthRoleDTO dto)
     {
-        userService.checkUserDataScope(userId);
-        roleService.checkRoleDataScope(roleIds);
-        userService.insertUserAuth(userId, roleIds);
+        userService.checkUserDataScope(dto.getUserId());
+        roleService.checkRoleDataScope(dto.getRoleIds());
+        userService.insertUserAuth(dto.getUserId(), dto.getRoleIds());
         return success();
     }
 
@@ -252,5 +264,41 @@ public class SysUserController extends BaseController
     public AjaxResult deptTree(SysDept dept)
     {
         return success(deptService.selectDeptTreeList(dept));
+    }
+
+
+    @GetMapping("/getPreferences")
+    public AjaxResult getPreferences() {
+        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
+        return success(Objects.isNull(user.getPreferences()) ? Map.of() : user.getPreferences());
+    }
+
+    @GetMapping("/preference")
+    public AjaxResult getUserPreference(@RequestParam("id") @NotEmpty String id) {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser user = loginUser.getUser();
+        Optional<IUserPreference> findFirst = userPreferenceList.stream().filter(up -> up.getId().equals(id))
+                .findFirst();
+        if (!findFirst.isPresent()) {
+            return error();
+        }
+        Object value = findFirst.get().getDefaultValue();
+        if (user.getPreferences() != null) {
+            value = user.getPreferences().getOrDefault(id, findFirst.get().getDefaultValue());
+        }
+        return success(value);
+    }
+
+    @PutMapping("/savePreferences")
+    public AjaxResult saveUserPreferences(@RequestBody @NotNull Map<String, Object> userPreferences) throws Exception {
+        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
+        Map<String, Object> map = userPreferenceList.stream().collect(Collectors.toMap(IUserPreference::getId,
+                up -> userPreferences.getOrDefault(up.getId(), up.getDefaultValue())));
+        user.setPreferences(map);
+        userService.updateUser(user);
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        loginUser.setUser(user);
+        tokenService.setLoginUser(loginUser);
+        return success();
     }
 }

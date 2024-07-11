@@ -1,6 +1,15 @@
 package com.yuji.web.controller.system;
 
+import com.yuji.common.constant.Constants;
+import com.yuji.common.constant.UserConstants;
+import com.yuji.common.core.domain.entity.SysMenu;
+import com.yuji.common.utils.ip.IP2RegionUtils;
+import com.yuji.system.domain.vo.DashboardUserVO;
+import com.yuji.system.domain.vo.ShortcutVO;
+import com.yuji.system.preference.ShortcutUserPreference;
+import com.yuji.system.service.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -23,6 +32,11 @@ import com.yuji.common.utils.file.MimeTypeUtils;
 import com.yuji.framework.web.service.TokenService;
 import com.yuji.system.service.ISysUserService;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
+
 /**
  * 个人信息 业务处理
  * 
@@ -34,6 +48,9 @@ public class SysProfileController extends BaseController
 {
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ISysMenuService menuService;
 
     @Autowired
     private TokenService tokenService;
@@ -133,5 +150,48 @@ public class SysProfileController extends BaseController
             }
         }
         return error("上传图片异常，请联系管理员");
+    }
+
+    /**
+     * 首页用户信息
+     */
+    @GetMapping("/homeInfo")
+    public AjaxResult getHomeInfo() {
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        SysUser user =  loginUser.getUser();
+        DashboardUserVO vo = new DashboardUserVO();
+        vo.setUserName(user.getUserName());
+        vo.setNickName(user.getNickName());
+        vo.setLastLoginTime(user.getLoginDate());
+        vo.setLastLoginIp(user.getLoginIp());
+        vo.setLastLoginAddr(IP2RegionUtils.ip2Region(user.getLoginIp()));
+        if (StringUtils.isNotEmpty(user.getAvatar())) {
+            vo.setAvatar(user.getAvatar());
+        }
+        vo.setDeptName(user.getDept().getDeptName());
+        return success(vo);
+    }
+
+    @GetMapping("/shortcuts")
+    public AjaxResult getHomeShortcuts() {
+        SysUser user = userService.selectUserById(SecurityUtils.getUserId());
+        List<Long> menuIds = ShortcutUserPreference.getValue(user.getPreferences());
+        List<String> menuTypes = new ArrayList<>();
+        menuTypes.add(UserConstants.TYPE_MENU);
+        SysMenu menu = new SysMenu();
+        menu.getParams().put("menuTypes",menuTypes);
+        menu.getParams().put("menuIds", menuIds);
+        startPage(8);
+        List<SysMenu> menus = menuService.selectMenuList(menu,SecurityUtils.getUserId());
+        Set<String> menuPerms = SecurityUtils.getLoginUser().getPermissions();
+        if (!menuPerms.contains(Constants.ALL_PERMISSION)) {
+            menus = menus.stream().filter(m -> {
+                return StringUtils.isEmpty(m.getPerms()) || menuPerms.contains(m.getPerms());
+            }).toList();
+        }
+        List<ShortcutVO> result = menus.stream()
+                .sorted(Comparator.comparingInt(m -> menuIds.indexOf(m.getMenuId())))
+                .map(m -> new ShortcutVO(m.getMenuName(), m.getIcon(), StringUtils.capitalize(m.getPath()))).toList();
+        return success(result);
     }
 }

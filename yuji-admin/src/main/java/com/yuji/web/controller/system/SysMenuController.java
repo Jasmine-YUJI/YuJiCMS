@@ -1,6 +1,11 @@
 package com.yuji.web.controller.system;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import com.yuji.common.constant.Constants;
+import com.yuji.common.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -61,6 +66,25 @@ public class SysMenuController extends BaseController
     public AjaxResult treeselect(SysMenu menu)
     {
         List<SysMenu> menus = menuService.selectMenuList(menu, getUserId());
+        return success(menuService.buildMenuTreeSelect(menus));
+    }
+
+    /**
+     * 用户偏好查询菜单下拉树结构
+     */
+    @GetMapping("/userTreeselect")
+    public AjaxResult userTreeselect() {
+        List<String> menuTypes = new ArrayList<>();
+        menuTypes.add(UserConstants.TYPE_MENU);
+        menuTypes.add(UserConstants.TYPE_DIR);
+        SysMenu menu = new SysMenu();
+        menu.getParams().put("menuTypes",menuTypes);
+        List<SysMenu> menus = menuService.selectMenuList(menu,SecurityUtils.getUserId());        Set<String> menuPerms = SecurityUtils.getLoginUser().getPermissions();
+        if (!menuPerms.contains(Constants.ALL_PERMISSION)) {
+            menus = menus.stream().filter(m -> {
+                return StringUtils.isEmpty(m.getPerms()) || menuPerms.contains(m.getPerms());
+            }).toList();
+        }
         return success(menuService.buildMenuTreeSelect(menus));
     }
 

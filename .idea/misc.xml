@@ -6,11 +6,19 @@
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/yuji-cms/yuji-cms-contentcore/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-framework/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common-cc/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common/yuji-common-core/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/yuji-admin/yuji-common/pom.xml" />
         <option value="$PROJECT_DIR$/yuji-cms/yuji-core/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common/yuji-common-datascope/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common/yuji-common-log/pom.xml" />
+        <option value="$PROJECT_DIR$/yuji-common/yuji-common-redis/pom.xml" />
         <option value="$PROJECT_DIR$/yuji-modules/yuji-test/pom.xml" />
       </set>
     </option>

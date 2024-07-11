@@ -24,13 +24,16 @@
         </div>
         <el-dropdown-menu slot="dropdown">
           <router-link to="/user/profile">
-            <el-dropdown-item>个人中心</el-dropdown-item>
+            <el-dropdown-item>{{ $t('Router.AccountCenter') }}</el-dropdown-item>
+          </router-link>
+          <router-link to="/user/preference">
+            <el-dropdown-item>{{ $t('Router.UserPreference') }}</el-dropdown-item>
           </router-link>
           <el-dropdown-item @click.native="setting = true">
-            <span>布局设置</span>
+            <span>{{ $t('Router.LayoutSetting') }}</span>
           </el-dropdown-item>
           <el-dropdown-item divided @click.native="logout">
-            <span>退出登录</span>
+            <span>{{ $t('Router.Logout') }}</span>
           </el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>

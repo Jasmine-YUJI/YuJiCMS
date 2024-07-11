@@ -1,6 +1,7 @@
 import Vue from 'vue'
 
 import Cookies from 'js-cookie'
+import i18n from './i18n';
 
 import Element from 'element-ui'
 import './assets/styles/element-variables.scss'
@@ -80,6 +81,7 @@ Vue.config.productionTip = false
 
 new Vue({
   el: '#app',
+  i18n,
   router,
   store,
   render: h => h(App)

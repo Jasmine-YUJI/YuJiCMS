@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import i18n from '@/i18n'
 
 Vue.use(Router)
 
@@ -70,7 +71,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/index'),
         name: 'Index',
-        meta: { title: '首页', icon: 'dashboard', affix: true }
+        meta: { title: i18n.t('Router.Home'), icon: 'dashboard', affix: true }
       }
     ]
   },
@@ -84,7 +85,13 @@ export const constantRoutes = [
         path: 'profile',
         component: () => import('@/views/system/user/profile/index'),
         name: 'Profile',
-        meta: { title: '个人中心', icon: 'user' }
+        meta: { title: i18n.t('Router.AccountCenter'), icon: 'user' }
+      },
+      {
+        path: 'preference',
+        component: () => import('@/views/system/user/userPreference'),
+        name: 'UserPreference',
+        meta: { title: i18n.t('Router.UserPreference'), icon: 'user' }
       }
     ]
   }
@@ -92,20 +99,6 @@ export const constantRoutes = [
 
 // 动态路由，基于用户权限动态去加载
 export const dynamicRoutes = [
-  {
-    path: '/system/user-auth',
-    component: Layout,
-    hidden: true,
-    permissions: ['system:user:edit'],
-    children: [
-      {
-        path: 'role/:userId(\\d+)',
-        component: () => import('@/views/system/user/authRole'),
-        name: 'AuthRole',
-        meta: { title: '分配角色', activeMenu: '/system/user' }
-      }
-    ]
-  },
   {
     path: '/system/role-auth',
     component: Layout,
@@ -116,7 +109,7 @@ export const dynamicRoutes = [
         path: 'user/:roleId(\\d+)',
         component: () => import('@/views/system/role/authUser'),
         name: 'AuthUser',
-        meta: { title: '分配用户', activeMenu: '/system/role' }
+        meta: { title: i18n.t('System.Role.UserSetting'), activeMenu: '/system/role' }
       }
     ]
   },
@@ -130,7 +123,7 @@ export const dynamicRoutes = [
         path: 'index/:dictId(\\d+)',
         component: () => import('@/views/system/dict/data'),
         name: 'Data',
-        meta: { title: '字典数据', activeMenu: '/system/dict' }
+        meta: { title: i18n.t('System.Dict.DataList'), activeMenu: '/system/dict' }
       }
     ]
   },
@@ -144,7 +137,7 @@ export const dynamicRoutes = [
         path: 'index/:jobId(\\d+)',
         component: () => import('@/views/monitor/job/log'),
         name: 'JobLog',
-        meta: { title: '调度日志', activeMenu: '/monitor/job' }
+        meta: { title: i18n.t('Monitor.Job.Logs'), activeMenu: '/monitor/job' }
       }
     ]
   },
@@ -158,7 +151,7 @@ export const dynamicRoutes = [
         path: 'index/:tableId(\\d+)',
         component: () => import('@/views/tool/gen/editTable'),
         name: 'GenEdit',
-        meta: { title: '修改生成配置', activeMenu: '/tool/gen' }
+        meta: { title: i18n.t('System.GenCode.EditGenConfig'), activeMenu: '/tool/gen' }
       }
     ]
   }

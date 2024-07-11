@@ -7,14 +7,20 @@
     <file url="file://$PROJECT_DIR$/yuji-admin/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yuji-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yuji-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-common/yuji-common-core/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-common/yuji-common-core/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-common/yuji-common-framework/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-common/yuji-common-framework/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yuji-framework/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yuji-framework/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-generator/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-generator/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-quartz/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-quartz/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-system/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/yuji-system/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-generator/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-generator/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-quartz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-quartz/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-system/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yuji-modules/yuji-system/src/main/resources" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

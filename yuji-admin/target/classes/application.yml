@@ -1,7 +1,9 @@
 # 项目相关配置
 yuji:
   # 名称
-  name: YUJi
+  name: 雨霁内容管理系统
+  # 代号
+  alias: YuJiCMS
   # 版本
   version: 3.8.7
   # 版权年份
